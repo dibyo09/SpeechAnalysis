@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Simple WebAudioRecorder.js demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
+  </head>
+  <body>
+  <style>
+        body {
+            background-color: #170a45;
+        }
+
+        .glow {
+            font-size: 60px;
+            color: green;
+            text-align: center;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        /* Text glowing from onw shade to other shade */
+        @-webkit-keyframes glow {
+            from {
+                text-shadow: 0 0 10px rgb(43, 255, 0),
+                             0 0 20px rgb(43, 255, 0),
+                             0 0 30px #26e600,
+                             0 0 40px #26e600,
+                             0 0 50px #26e600,
+                             0 0 60px #26e600,
+                             0 0 70px #26e600;
+            }
+            to {
+                text-shadow: 0 0 20px #4dff7a;
+                             0 0 30px #4dff7a,
+                             0 0 40px #4dff7a,
+                             0 0 50px #4dff7a,
+                             0 0 60px #4dff7a,
+                             0 0 70px #4dff7a,
+                             0 0 80px #4dff7a;
+            }
+        }
+      marquee {
+        width: 100%;
+        padding: 10px 0;
+        background-color: black;
+      }
+        </style>
+	<p style="color:yellow" >Upload your Problem Statement:<br>
+	<select id="encodingTypeSelect">
+	  <option value="wav">Waveform Audio (.wav)</option>
+	  <option value="mp3">MP3 (MPEG-1 Audio Layer III) (.mp3)</option>
+	  <option value="ogg">Ogg Vorbis (.ogg)</option>
+	</select>
+	</p>
+	<div id="controls">
+		<button id="recordButton">Record</button>
+		<button id="pauseButton">Pause</button>
+		<button id="stopButton" disabled>Stop</button>
+	</div>
+	<div id="formats"></div>
+	<h3 style="color:yellow" >Log</h3>
+	<pre id="log"></pre>
+      <h3 style="color:white"><a href="{{ url_for('Problem_result') }}">Results</a></h3>
+		    <h3 style="color:yellow">Problems </h3>
+					{% for stat in results %}
+
+						<li><h3 style="color:yellow"> {{stat }} </h3></li>
+
+					{% endfor %}
+
+	<h3 style="color:yellow" >Recordings</h3>
+	<ol id="recordingsList"></ol>
+
+  	<!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+	<!--script src="{{ url_for('static',filename='js/WebAudioRecorder.min.js') }}"></script-->
+	<script type = "text/javascript" src="{{url_for('static',filename='js/recorder.js')}}"></script>
+	<script type = "text/javascript" src="{{url_for('static',filename='js/app.js')}}"></script>
+  </body>
+</html>

@@ -15,6 +15,7 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.probability import FreqDist
 from nltk.corpus import stopwords
 from nltk.stem.wordnet import WordNetLemmatizer
+from flask import jsonify
 
 #nltk.download('all')
 from requests import Session
@@ -106,10 +107,18 @@ def index():
     if request.method == "POST":
         f = request.files['audio_data']
         #language_chosen=request.files['language']
+        #print(' xxdg language',language_chosen)
         print(' request.files ',request)
-        with open('Kalptree_problem.wav', 'wb') as audio:
-            f.save(audio)
-        speech_analyze('Kalptree_problem.wav')
+        target = os.path.join(os.getcwd(), "templates")
+        destination = os.path.join(target, 'Kalptree_problem.wav')
+           # destination = os.path.join(target, audio.name)'')
+        with open(destination, 'wb') as audio:
+
+
+            destination = os.path.join(target, audio.name)
+            f.save(destination)
+
+        speech_analyze(destination)
         print('file uploaded successfully')
         #os.remove("Kalptree_problem.wav")
         return render_template("index.html", results=session['tags'])
@@ -118,8 +127,9 @@ def index():
 @app.route('/Problem_result')
 def Problem_result():
     print(" in results",session['tags'])
-
-    return render_template("Problem_result.html", results=session['tags'])
+    return jsonify(session['tags'])
+    #return session['tags']
+    #return render_template("Problem_result.html", results=session['tags'])
 if __name__ == "__main__":
-   # app.run(debug=True,port=5020)
-    app.run(host="0.0.0.0",port=5002)
+    app.run(debug=True,port=5020)
+    #app.run(host="0.0.0.0",port=5002)

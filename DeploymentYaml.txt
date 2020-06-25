@@ -1,0 +1,100 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  annotations:
+    alpha.image.policy.openshift.io/resolve-names: '*'
+    deployment.kubernetes.io/revision: '5'
+    image.openshift.io/triggers: >-
+      [{"from":{"kind":"ImageStreamTag","name":"speechrecognizedg1:latest","namespace":"cc-uc-other-industrial-oracle-team-c"},"fieldPath":"spec.template.spec.containers[?(@.name==\"speechrecognizedg1\")].image"}]
+    openshift.io/generated-by: OpenShiftWebConsole
+  selfLink: >-
+    /apis/apps/v1/namespaces/cc-uc-other-industrial-oracle-team-c/deployments/speechrecognizedg1
+  resourceVersion: '23430970'
+  name: speechrecognizedg1
+  uid: da989a25-5a94-4d07-bdea-a9cc0e61c2ed
+  creationTimestamp: '2020-06-17T04:36:58Z'
+  generation: 3
+  namespace: cc-uc-other-industrial-oracle-team-c
+  labels:
+    app: speechrecognizedg1
+    app.kubernetes.io/component: speechrecognizedg1
+    app.kubernetes.io/instance: speechrecognizedg1
+    app.kubernetes.io/part-of: speechrecognizedg1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: speechrecognizedg1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: speechrecognizedg1
+        deploymentconfig: speechrecognizedg1
+      annotations:
+        openshift.io/generated-by: OpenShiftWebConsole
+    spec:
+      volumes:
+        - name: imageclassifier
+          emptyDir: {}
+      containers:
+        - name: speechrecognizedg1
+          image: >-
+            subhasiscemca/dibyatesttry@sha256:e40fc02651543bfc137a19e53851d1df61db38dc631597054a8a6811a93588a2
+          ports:
+            - containerPort: 5002
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 100m
+              memory: 130Mi
+            requests:
+              cpu: 25m
+              memory: 40Mi
+          volumeMounts:
+            - name: imageclassifier
+              mountPath: /src
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: Always
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+status:
+  observedGeneration: 3
+  replicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  unavailableReplicas: 1
+  conditions:
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2020-06-17T04:38:40Z'
+      lastTransitionTime: '2020-06-17T04:38:40Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2020-06-17T04:44:40Z'
+      lastTransitionTime: '2020-06-17T04:37:01Z'
+      reason: NewReplicaSetCreated
+      message: Created new replica set "speechrecognizedg1-7cc54dbf4d"
+    - type: ReplicaFailure
+      status: 'True'
+      lastUpdateTime: '2020-06-17T04:44:40Z'
+      lastTransitionTime: '2020-06-17T04:44:40Z'
+      reason: FailedCreate
+      message: >-
+        pods "speechrecognizedg1-7cc54dbf4d-kv5w8" is forbidden: exceeded quota:
+        compute-resources, requested: limits.cpu=100m, used: limits.cpu=400m,
+        limited: limits.cpu=480m
+  collisionCount: 2

@@ -1,7 +1,13 @@
-FROM python:3.6.1-alpine
+FROM python:3.8.0
 
 RUN mkdir -p /src
 ENV PYTHONPATH /
+
+RUN mkdir -p /venv/Lib/site-packages
+ADD /venv/Lib/site-packages/* /venv/Lib/site-packages/
+COPY ["/venv/Lib/site-packages/*", "/venv/Lib/site-packages/"]
+
+
 WORKDIR /src
 
 RUN mkdir -p /src/kaplptreeimages/uploads
@@ -9,6 +15,8 @@ RUN mkdir -p /src/kaplptreeimages/uploads
 RUN mkdir -p /src/templates
 ADD src/templates/*.* /src/templates/
 COPY ["src/templates/*.*", "templates/"]
+
+
 
 RUN mkdir -p /src/static/js
 ADD src/static/js/*.* /src/static/js/
@@ -19,7 +27,7 @@ COPY ["src/KalptreeSpeechRecognizer.py", "KalptreeSpeechRecognizer.py"]
 
 
 COPY ["src/requirements.txt", "requirements.txt"]
-RUN pip3 install pipenv
+#RUN pip3 install pipenv
 
 RUN pip install --upgrade pip
 
